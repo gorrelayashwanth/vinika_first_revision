@@ -10,13 +10,13 @@ import { getMessaging, isSupported } from "firebase/messaging";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAVoitXHtTDyisG7k6iF0ZvFgg_mwDDi2U",
-  authDomain: "vinika-food-thoughts.firebaseapp.com",
-  projectId: "vinika-food-thoughts",
-  storageBucket: "vinika-food-thoughts.firebasestorage.app",
-  messagingSenderId: "209973031388",
-  appId: "1:209973031388:web:e36a1d1ac7b8b874291f19",
-  measurementId: "G-1BCNBPP6RZ"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
