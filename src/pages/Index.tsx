@@ -36,11 +36,11 @@ const HomePage = () => {
   return (
     <Layout showAnnouncement>
       {/* Hero */}
-      <section className="relative min-h-[60vh] md:min-h-[85vh] flex items-center overflow-hidden">
+      <section className="relative min-h-[70vh] md:min-h-[85vh] flex items-start md:items-center overflow-hidden pt-16 md:pt-0">
         <div className="absolute inset-0">
           <img src={heroBg} alt="Vinika Food Thoughts" className="w-full h-full object-cover object-bottom hero-ken-burns" />
-          <div className="absolute inset-0 bg-background/40 md:bg-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-background/20 md:bg-gradient-to-r md:from-background/95 md:via-background/80 md:to-background/40" />
+          <div className="absolute inset-0 bg-background/30 md:bg-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/40 to-transparent md:bg-gradient-to-r md:from-background/95 md:via-background/80 md:to-background/40" />
         </div>
         <div className="absolute top-20 right-20 opacity-20 animate-float hidden lg:block">
           <Leaf className="h-24 w-24 text-primary" />
@@ -48,15 +48,15 @@ const HomePage = () => {
         <div className="absolute bottom-32 right-40 opacity-15 animate-float-delayed hidden lg:block">
           <Leaf className="h-16 w-16 text-primary rotate-45" />
         </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-2xl bg-white/10 md:bg-transparent backdrop-blur-[2px] md:backdrop-blur-0 p-6 md:p-0 rounded-3xl border border-white/20 md:border-0 shadow-lg md:shadow-none">
-            <h1 className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight hero-fade-up" style={{ animationDelay: "100ms" }}>
+        <div className="container mx-auto px-4 relative z-10 mt-8 md:mt-0">
+          <div className="max-w-2xl bg-background/80 backdrop-blur-sm md:bg-transparent md:backdrop-blur-0 p-6 md:p-0 rounded-3xl border border-border/50 md:border-0 shadow-xl md:shadow-none">
+            <h1 className="font-heading text-3xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight hero-fade-up" style={{ animationDelay: "100ms" }}>
               {content.heroHeadline}
             </h1>
-            <p className="text-base md:text-xl text-foreground/90 md:text-muted-foreground mt-4 md:mt-6 leading-relaxed hero-fade-up" style={{ animationDelay: "260ms" }}>
+            <p className="text-sm md:text-xl text-foreground font-medium md:font-normal md:text-muted-foreground mt-4 md:mt-6 leading-relaxed hero-fade-up" style={{ animationDelay: "260ms" }}>
               {content.heroSubtext}
             </p>
-            <div className="flex flex-wrap gap-4 mt-6 md:mt-8 hero-fade-up" style={{ animationDelay: "420ms" }}>
+            <div className="flex flex-wrap gap-3 md:gap-4 mt-6 md:mt-8 hero-fade-up" style={{ animationDelay: "420ms" }}>
               <Button variant="hero" size="lg" className="btn-shimmer" asChild>
                 <Link to="/shop">{content.heroCTA1}</Link>
               </Button>
