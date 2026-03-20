@@ -5,7 +5,7 @@ import { useApp } from "@/context/AppContext";
 import { store } from "@/lib/store";
 import { Link } from "react-router-dom";
 import { Leaf, Shield, FlaskConical, Heart, Users, Clock, Award, Sprout, BadgeCheck, CreditCard, Truck, Tag, RotateCcw, Store } from "lucide-react";
-import heroBg from "@/assets/hero-bg.jpg";
+import heroBg from "@/assets/hero-bg-updated.png";
 
 const HomePage = () => {
   const { products } = useApp();
@@ -30,10 +30,10 @@ const HomePage = () => {
   return (
     <Layout showAnnouncement>
       {/* Hero */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden">
+      <section className="relative min-h-[60vh] md:min-h-[85vh] flex items-center overflow-hidden">
         <div className="absolute inset-0">
-          <img src={heroBg} alt="Natural ingredients" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/40" />
+          <img src={heroBg} alt="Vinika Food Thoughts" className="w-full h-full object-cover object-bottom" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent md:bg-gradient-to-r md:from-background/95 md:via-background/80 md:to-background/40" />
         </div>
         <div className="absolute top-20 right-20 opacity-20 animate-float hidden lg:block">
           <Leaf className="h-24 w-24 text-primary" />
