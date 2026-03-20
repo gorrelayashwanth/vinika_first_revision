@@ -2,13 +2,22 @@ import { Link, useNavigate } from "react-router-dom";
 import { Leaf, ShoppingCart, Menu, X, User, LogOut, Package, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/context/AppContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Navbar = () => {
   const { user, cartCount, logout } = useApp();
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 60);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const initials = user ? user.name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2) : "";
 
@@ -20,7 +29,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+    <nav className={`sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border navbar-load ${scrolled ? "navbar-scrolled" : ""}`}>
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 group">
@@ -31,7 +40,11 @@ const Navbar = () => {
         {/* Desktop links */}
         <div className="hidden md:flex items-center gap-8">
           {links.map(l => (
-            <Link key={l.to} to={l.to} className="font-body text-sm font-medium text-foreground/70 hover:text-primary transition-colors">
+            <Link 
+              key={l.to} 
+              to={l.to} 
+              className="font-body text-sm font-medium text-foreground/70 hover:text-primary transition-colors nav-link-underline"
+            >
               {l.label}
             </Link>
           ))}
@@ -39,7 +52,11 @@ const Navbar = () => {
 
         {/* Right side */}
         <div className="flex items-center gap-3">
-          <button onClick={() => navigate("/cart")} className="relative p-2 hover:bg-secondary rounded-full transition-colors">
+          <button 
+            id="navbar-cart-btn"
+            onClick={() => navigate("/cart")} 
+            className="relative p-2 hover:bg-secondary rounded-full transition-colors"
+          >
             <ShoppingCart className="h-5 w-5 text-foreground" />
             {cartCount > 0 && (
               <span className="absolute -top-0.5 -right-0.5 bg-primary text-primary-foreground text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center">
@@ -77,7 +94,7 @@ const Navbar = () => {
               )}
             </div>
           ) : (
-            <Button variant="default" size="sm" onClick={() => navigate("/login")}>Login</Button>
+            <Button variant="default" size="sm" onClick={() => navigate("/login")} className="btn-login-hover">Login</Button>
           )}
 
           <button className="md:hidden p-2" onClick={() => setMobileOpen(!mobileOpen)}>
@@ -95,7 +112,7 @@ const Navbar = () => {
                 key={l.to}
                 to={l.to}
                 onClick={() => setMobileOpen(false)}
-                className="py-3 px-4 rounded-xl text-sm font-medium hover:bg-secondary transition-colors"
+                className="py-3 px-4 rounded-xl text-sm font-medium hover:bg-secondary transition-colors nav-link-underline"
               >
                 {l.label}
               </Link>

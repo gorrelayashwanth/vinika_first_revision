@@ -5,7 +5,7 @@ import { Product, store, Review } from "@/lib/store";
 import { getImageUrl } from "@/lib/productImages";
 import { ShoppingCart, ChevronLeft, ChevronRight, Leaf, Info, Star } from "lucide-react";
 
-const ProductCard = ({ product }: { product: Product }) => {
+const ProductCard = ({ product, delay = 0 }: { product: Product, delay?: number }) => {
   const [selectedVariant, setSelectedVariant] = useState(0);
   const [imgIdx, setImgIdx] = useState(0);
   const [showHighlights, setShowHighlights] = useState(false);
@@ -13,6 +13,34 @@ const ProductCard = ({ product }: { product: Product }) => {
   const [reviewComment, setReviewComment] = useState("");
   const [reviewRating, setReviewRating] = useState(5);
   const { addToCart, user } = useApp();
+
+  const triggerCartFly = (e: React.MouseEvent) => {
+    const btn = e.currentTarget;
+    const cartBtn = document.getElementById("navbar-cart-btn");
+    if (!btn || !cartBtn) return;
+
+    const btnRect = btn.getBoundingClientRect();
+    const cartRect = cartBtn.getBoundingClientRect();
+
+    const dot = document.createElement("div");
+    dot.className = "cart-fly-dot";
+    dot.style.left = `${btnRect.left + btnRect.width / 2}px`;
+    dot.style.top = `${btnRect.top + btnRect.height / 2}px`;
+    
+    const dx = cartRect.left - btnRect.left;
+    const dy = cartRect.top - btnRect.top;
+    
+    dot.style.setProperty("--dx", `${dx}px`);
+    dot.style.setProperty("--dy", `${dy}px`);
+
+    document.body.appendChild(dot);
+    
+    setTimeout(() => {
+      dot.remove();
+      cartBtn.classList.add("cart-bounce");
+      setTimeout(() => cartBtn.classList.remove("cart-bounce"), 300);
+    }, 600);
+  };
 
   const images = (product.images && product.images.length > 0) ? product.images : ["product-turmeric"];
   const currentImage = getImageUrl(images[imgIdx]);
@@ -61,16 +89,16 @@ const ProductCard = ({ product }: { product: Product }) => {
   };
 
   return (
-    <div className="card-warm overflow-hidden group transition-all duration-300 hover:shadow-warm-lg hover:-translate-y-1">
+    <div className="card-warm overflow-hidden group transition-all duration-300 reveal product-card-hover" style={{ transitionDelay: `${delay}ms` }}>
       {/* Image Carousel */}
       <div className="aspect-square overflow-hidden bg-secondary relative">
-        <img src={currentImage} alt={product.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        <img src={currentImage} alt={product.name} className="w-full h-full object-cover product-card-img-zoom" />
         {images.length > 1 && (
           <>
-            <button onClick={() => setImgIdx((imgIdx - 1 + images.length) % images.length)} className="absolute left-2 top-1/2 -translate-y-1/2 bg-background/80 rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button onClick={() => setImgIdx((imgIdx - 1 + images.length) % images.length)} className="absolute left-2 top-1/2 -translate-y-1/2 bg-background/80 rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity arrow-hover">
               <ChevronLeft className="h-4 w-4" />
             </button>
-            <button onClick={() => setImgIdx((imgIdx + 1) % images.length)} className="absolute right-2 top-1/2 -translate-y-1/2 bg-background/80 rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button onClick={() => setImgIdx((imgIdx + 1) % images.length)} className="absolute right-2 top-1/2 -translate-y-1/2 bg-background/80 rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity arrow-hover">
               <ChevronRight className="h-4 w-4" />
             </button>
             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
@@ -113,7 +141,7 @@ const ProductCard = ({ product }: { product: Product }) => {
             {variants.map((v, i) => (
               <button
                 key={i}
-                className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                className={`text-xs px-3 py-1.5 rounded-full border pill-select-transition ${
                   selectedVariant === i
                     ? "border-primary bg-primary/10 text-primary font-semibold"
                     : "border-border text-muted-foreground hover:border-primary/50"
@@ -128,7 +156,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
         {/* Add to cart */}
         <div className="mt-4">
-          <Button variant="accent" size="sm" className="w-full" onClick={() => { addToCart(product.id, 1, currentLabel); }}>
+          <Button variant="accent" size="sm" className="w-full btn-cart-hover btn-cart-active btn-shimmer" onClick={(e) => { triggerCartFly(e); addToCart(product.id, 1, currentLabel); }}>
             <ShoppingCart className="h-4 w-4" /> Add to Cart • {currentLabel}
           </Button>
         </div>
@@ -190,7 +218,7 @@ const ProductCard = ({ product }: { product: Product }) => {
         {/* Product Highlights Toggle */}
         {product.highlights && product.highlights.genericName && (
           <div className="mt-3">
-            <button onClick={() => setShowHighlights(!showHighlights)} className="flex items-center gap-1.5 text-xs text-primary font-medium hover:underline">
+            <button onClick={() => setShowHighlights(!showHighlights)} className="flex items-center gap-1.5 text-xs text-primary font-medium hover:underline link-terracotta">
               <Info className="h-3.5 w-3.5" />
               {showHighlights ? "Hide" : "View"} Product Details
             </button>

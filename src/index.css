@@ -126,3 +126,227 @@
   stroke-dasharray: 100;
   animation: checkmark-draw 0.8s ease-out forwards;
 }
+
+/* --- NEW ANIMATIONS --- */
+@media (prefers-reduced-motion: no-preference) {
+  /* Navbar */
+  .navbar-load {
+    animation: fadeIn 300ms ease forwards;
+  }
+
+  .navbar-scrolled {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 300ms ease;
+  }
+
+  .nav-link-underline {
+    position: relative;
+  }
+  .nav-link-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #c07840; /* Terracotta */
+    transition: width 200ms ease;
+  }
+  .nav-link-underline:hover::after {
+    width: 100%;
+  }
+
+  .btn-login-hover:hover {
+    transform: scale(1.04);
+    transition: transform 200ms ease;
+  }
+
+  .cart-bounce {
+    animation: cartBounce 300ms ease;
+  }
+
+  @keyframes cartBounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+  }
+
+  /* Hero */
+  .hero-ken-burns {
+    animation: kenBurns 8000ms linear infinite alternate;
+  }
+
+  @keyframes kenBurns {
+    from { transform: scale(1); }
+    to { transform: scale(1.06); }
+  }
+
+  .hero-fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 500ms ease-out forwards;
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .btn-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-shimmer::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -100%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: rotate(25deg);
+    transition: left 600ms ease;
+  }
+  .btn-shimmer:hover::after {
+    left: 100%;
+  }
+
+  .btn-outline-fill:hover {
+    background-color: rgba(74, 124, 30, 0.08);
+    transition: background-color 200ms ease;
+  }
+
+  /* Scroll Reveal Base Classes */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 400ms ease-out, transform 400ms ease-out;
+  }
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .trust-group {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 340ms ease-out, transform 340ms ease-out;
+  }
+  .trust-group.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .banner-reveal {
+    opacity: 0;
+    transform: translateX(-24px);
+    transition: opacity 400ms ease-out, transform 400ms ease-out;
+  }
+  .banner-reveal.active {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .feature-card {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 350ms ease-out, transform 350ms ease-out, border-color 200ms ease;
+  }
+  .feature-card.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Mobile scaling: translateY x 0.5, durations x 0.8 */
+  @media (max-width: 768px) {
+    .reveal { transform: translateY(10px); transition-duration: 320ms; }
+    .trust-group { transform: translateY(8px); transition-duration: 272ms; }
+    .banner-reveal { transform: translateX(-12px); transition-duration: 320ms; }
+    .feature-card { transform: translateY(11px); transition-duration: 280ms; }
+    .hero-fade-up { transform: translateY(10px); animation-duration: 400ms; }
+  }
+
+  /* Hover & Interaction Effects */
+  .product-card-hover {
+    transition: transform 250ms ease, box-shadow 250ms ease;
+  }
+  .product-card-hover:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.10);
+  }
+
+  .product-card-img-zoom {
+    transition: transform 300ms ease;
+  }
+  .product-card-hover:hover .product-card-img-zoom {
+    transform: scale(1.05);
+  }
+
+  .pill-select-transition {
+    transition: all 150ms ease;
+  }
+
+  .btn-cart-hover:hover {
+    background-color: #a8622e !important; /* Darker terracotta */
+    transition: background-color 200ms ease;
+  }
+  .btn-cart-active:active {
+    transform: scale(0.96);
+    transition: transform 200ms ease;
+  }
+
+  .trust-icon-lift {
+    transition: transform 250ms ease;
+  }
+  .trust-icon-lift:hover {
+    transform: translateY(-4px);
+  }
+
+  .pill-hover:hover {
+    transform: scale(1.06);
+    transition: transform 150ms ease;
+  }
+
+  .feature-card:hover {
+    border-color: #c07840 !important;
+    transform: translateY(-4px);
+  }
+
+  .feature-icon-rotate {
+    transition: transform 280ms ease;
+  }
+  .feature-card:hover .feature-icon-rotate {
+    transform: rotate(10deg);
+  }
+
+  .arrow-hover:hover {
+    transform: scale(1.1);
+    filter: brightness(1.1);
+    transition: transform 150ms ease;
+  }
+
+  .link-terracotta:hover {
+    color: #c07840 !important;
+    transition: color 150ms ease;
+  }
+
+  /* Cart Fly Particle */
+  .cart-fly-dot {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background-color: #c07840;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    animation: cartFly 600ms ease-in forwards;
+  }
+
+  @keyframes cartFly {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(0.5); opacity: 0; }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
