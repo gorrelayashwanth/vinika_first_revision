@@ -88,6 +88,19 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* Featured Products */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground">Our Bestsellers</h2>
+            <div className="w-20 h-1 bg-accent mx-auto mt-4 rounded-full" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+            {featured.map(p => <ProductCard key={p.id} product={p} />)}
+          </div>
+        </div>
+      </section>
+
       {/* Why Choose Us - Best Quality / Online Payment / Fast Delivery */}
       <section className="py-16 bg-secondary">
         <div className="container mx-auto px-4">
@@ -105,19 +118,6 @@ const HomePage = () => {
                 <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Products */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground">Our Bestsellers</h2>
-            <div className="w-20 h-1 bg-accent mx-auto mt-4 rounded-full" />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-            {featured.map(p => <ProductCard key={p.id} product={p} />)}
           </div>
         </div>
       </section>
