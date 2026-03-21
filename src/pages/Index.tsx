@@ -174,16 +174,21 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Features Strip */}
-      <section className="bg-accent py-6 banner-reveal">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap items-center justify-center gap-3 md:gap-6">
-            {content.features.map((f, i) => (
-              <span key={i} className="bg-accent-foreground/10 text-accent-foreground px-4 py-2 rounded-full text-sm font-medium backdrop-blur-sm pill-hover banner-reveal" style={{ transitionDelay: `${400 + i * 55}ms` }}>
-                {f}
+      {/* Features Strip (Slow Marquee) */}
+      <section className="bg-accent py-6 md:py-8 overflow-hidden">
+        <div className="flex whitespace-nowrap">
+          <motion.div 
+            className="flex items-center gap-12 md:gap-20 px-6 pr-12 md:pr-20"
+            animate={{ x: [0, "-50%"] }}
+            transition={{ repeat: Infinity, ease: "linear", duration: 40 }}
+            style={{ width: "max-content" }}
+          >
+            {[...content.features, ...content.features, ...content.features, ...content.features, ...content.features, ...content.features].map((f, i) => (
+              <span key={i} className="text-accent-foreground/90 font-heading text-xl md:text-3xl italic tracking-wide">
+                “{f}”
               </span>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
