@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Leaf, Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
+import logoImg from "@/assets/vinika-logo.jpg";
 import { store } from "@/lib/store";
 
 const Footer = () => {
@@ -11,9 +12,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <Leaf className="h-6 w-6" />
-              <span className="font-heading text-xl font-bold">Vinika Food Thoughts</span>
+            <div className="mb-4 bg-white rounded-xl p-2 inline-block">
+              <img src={logoImg} alt="Vinika Food Thoughts" className="h-16 md:h-20 w-auto object-contain" />
             </div>
             <p className="text-primary-foreground/70 text-sm leading-relaxed">
               Handcrafted health foods made with love, sourced from nature's finest ingredients.

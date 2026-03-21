@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Leaf, ShoppingCart, Menu, X, User, LogOut, Package, ChevronDown } from "lucide-react";
+import logoImg from "@/assets/vinika-logo.jpg";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/context/AppContext";
 import { useState, useEffect } from "react";
@@ -30,11 +31,10 @@ const Navbar = () => {
 
   return (
     <nav className={`sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border navbar-load ${scrolled ? "navbar-scrolled" : ""}`}>
-      <div className="container mx-auto flex items-center justify-between h-16 px-4">
+      <div className="container mx-auto flex items-center justify-between h-20 px-4">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 group">
-          <Leaf className="h-7 w-7 text-primary transition-transform group-hover:rotate-12" />
-          <span className="font-heading text-xl font-bold text-foreground">Vinika Food Thoughts</span>
+        <Link to="/" className="flex items-center group">
+          <img src={logoImg} alt="Vinika Food Thoughts" className="h-14 md:h-16 w-auto object-contain py-1" />
         </Link>
 
         {/* Desktop links */}
