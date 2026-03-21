@@ -36,11 +36,14 @@ const HomePage = () => {
   return (
     <Layout showAnnouncement>
       {/* Hero */}
-      <section className="relative min-h-[70vh] md:min-h-[85vh] flex items-start md:items-center overflow-hidden pt-16 md:pt-0">
+      <section className="relative min-h-[75vh] md:min-h-[85vh] flex items-start md:items-center overflow-hidden pt-12 md:pt-0">
         <div className="absolute inset-0">
-          <img src={heroBg} alt="Vinika Food Thoughts" className="w-full h-full object-cover object-bottom hero-ken-burns" />
-          <div className="absolute inset-0 bg-background/30 md:bg-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/40 to-transparent md:bg-gradient-to-r md:from-background/95 md:via-background/80 md:to-background/40" />
+          <img src={heroBg} alt="Vinika Food Thoughts" className="w-full h-full object-cover object-center hero-ken-burns" />
+          {/* Fading Overlay - appears much later to preserve image visibility */}
+          <div 
+            className="absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-transparent md:bg-gradient-to-r md:from-background/95 md:via-background/80 md:to-background/40 hero-box-reveal" 
+            style={{ animationDelay: "1500ms" }}
+          />
         </div>
         <div className="absolute top-20 right-20 opacity-20 animate-float hidden lg:block">
           <Leaf className="h-24 w-24 text-primary" />
@@ -48,19 +51,22 @@ const HomePage = () => {
         <div className="absolute bottom-32 right-40 opacity-15 animate-float-delayed hidden lg:block">
           <Leaf className="h-16 w-16 text-primary rotate-45" />
         </div>
-        <div className="container mx-auto px-4 relative z-10 mt-8 md:mt-0">
-          <div className="max-w-2xl bg-background/80 backdrop-blur-sm md:bg-transparent md:backdrop-blur-0 p-6 md:p-0 rounded-3xl border border-border/50 md:border-0 shadow-xl md:shadow-none">
-            <h1 className="font-heading text-3xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight hero-fade-up" style={{ animationDelay: "100ms" }}>
+        <div className="container mx-auto px-4 relative z-10 mt-6 md:mt-0">
+          <div 
+            className="max-w-xl bg-white/30 md:bg-white/10 backdrop-blur-md md:backdrop-blur-sm p-6 md:p-10 rounded-[2.5rem] border border-white/20 md:border-white/20 shadow-xl md:shadow-none hero-box-reveal" 
+            style={{ animationDelay: "1500ms" }}
+          >
+            <h1 className="font-heading text-2xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight hero-fade-up" style={{ animationDelay: "1850ms" }}>
               {content.heroHeadline}
             </h1>
-            <p className="text-sm md:text-xl text-foreground font-medium md:font-normal md:text-muted-foreground mt-4 md:mt-6 leading-relaxed hero-fade-up" style={{ animationDelay: "260ms" }}>
+            <p className="text-xs md:text-xl text-foreground font-semibold md:font-normal md:text-muted-foreground mt-4 md:mt-6 leading-relaxed hero-fade-up" style={{ animationDelay: "2200ms" }}>
               {content.heroSubtext}
             </p>
-            <div className="flex flex-wrap gap-3 md:gap-4 mt-6 md:mt-8 hero-fade-up" style={{ animationDelay: "420ms" }}>
-              <Button variant="hero" size="lg" className="btn-shimmer" asChild>
+            <div className="flex flex-wrap gap-3 md:gap-4 mt-6 md:mt-8 hero-fade-up" style={{ animationDelay: "2550ms" }}>
+              <Button variant="hero" size="lg" className="btn-shimmer text-xs md:text-base h-10 md:h-12" asChild>
                 <Link to="/shop">{content.heroCTA1}</Link>
               </Button>
-              <Button variant="heroOutline" size="lg" className="btn-outline-fill" asChild>
+              <Button variant="heroOutline" size="lg" className="btn-outline-fill text-xs md:text-base h-10 md:h-12" asChild>
                 <Link to="/about">{content.heroCTA2}</Link>
               </Button>
             </div>

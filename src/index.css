@@ -180,10 +180,16 @@
     to { transform: scale(1.06); }
   }
 
+  .hero-box-reveal {
+    opacity: 0;
+    transition: opacity 600ms ease-out;
+    animation: fadeIn 600ms ease-out forwards;
+  }
+
   .hero-fade-up {
     opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp 500ms ease-out forwards;
+    transform: translateY(12px);
+    animation: fadeUp 400ms ease-out forwards;
   }
 
   @keyframes fadeUp {

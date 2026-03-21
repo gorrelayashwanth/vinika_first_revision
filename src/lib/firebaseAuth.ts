@@ -48,20 +48,33 @@ export const resetPassword = async (email: string) => {
 // ─── GOOGLE AUTH ─────────────────────────────────────────────────────────────
 export const loginWithGoogle = async (): Promise<FirebaseUser> => {
   const provider = new GoogleAuthProvider();
-  const cred = await signInWithPopup(auth, provider);
   
-  // Optionally update Firestore user profile if they don't exist
-  const existingUser = await getUser(cred.user.uid);
-  if (!existingUser) {
-    await setUser(cred.user.uid, {
-      id: cred.user.uid,
-      name: cred.user.displayName || "Google User",
-      email: cred.user.email || "",
-      phone: cred.user.phoneNumber || "",
-      password: "", 
-    });
+  try {
+    // Attempt popup login
+    const cred = await signInWithPopup(auth, provider);
+    
+    // Optionally update Firestore user profile if they don't exist
+    const existingUser = await getUser(cred.user.uid);
+    if (!existingUser) {
+      await setUser(cred.user.uid, {
+        id: cred.user.uid,
+        name: cred.user.displayName || "Google User",
+        email: cred.user.email || "",
+        phone: cred.user.phoneNumber || "",
+        password: "", 
+      });
+    }
+    return cred.user;
+  } catch (error: any) {
+    console.error("Google Login Error:", error);
+    if (error.code === "auth/unauthorized-domain") {
+      throw new Error("This domain is not authorized for Google Sign-in. Please add it in Firebase Console.");
+    }
+    if (error.code === "auth/popup-blocked") {
+      throw new Error("Sign-in popup was blocked. Please enable popups or try again.");
+    }
+    throw error;
   }
-  return cred.user;
 };
 
 // ─── SIGN OUT ────────────────────────────────────────────────────────────────
