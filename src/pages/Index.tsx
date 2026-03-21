@@ -41,7 +41,7 @@ const HomePage = () => {
           <img src={heroBg} alt="Vinika Food Thoughts" className="w-full h-full object-cover object-center hero-ken-burns" />
           {/* Fading Overlay - appears much later to preserve image visibility */}
           <div 
-            className="absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-transparent md:bg-gradient-to-r md:from-background/95 md:via-background/80 md:to-background/40 hero-box-reveal" 
+            className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-transparent md:bg-gradient-to-r md:from-background/90 md:via-background/70 md:to-background/30 hero-box-reveal" 
             style={{ animationDelay: "1500ms" }}
           />
         </div>
@@ -53,7 +53,7 @@ const HomePage = () => {
         </div>
         <div className="container mx-auto px-4 relative z-10 mt-6 md:mt-0">
           <div 
-            className="max-w-xl bg-white/30 md:bg-white/10 backdrop-blur-md md:backdrop-blur-sm p-6 md:p-10 rounded-[2.5rem] border border-white/20 md:border-white/20 shadow-xl md:shadow-none hero-box-reveal" 
+            className="max-w-xl bg-white/10 backdrop-blur-xl p-6 md:p-10 rounded-[2.5rem] border border-white/10 shadow-2xl md:shadow-none hero-box-reveal" 
             style={{ animationDelay: "1500ms" }}
           >
             <h1 className="font-heading text-2xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight hero-fade-up" style={{ animationDelay: "1850ms" }}>
