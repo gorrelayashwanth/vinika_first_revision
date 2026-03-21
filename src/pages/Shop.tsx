@@ -1,9 +1,11 @@
 import Layout from "@/components/Layout";
 import ProductCard from "@/components/ProductCard";
 import { useApp } from "@/context/AppContext";
+import { store } from "@/lib/store";
 
 const ShopPage = () => {
-  const { products } = useApp();
+  const { products: cloudProducts } = useApp();
+  const products = cloudProducts.length > 0 ? cloudProducts : store.getProducts();
 
   return (
     <Layout>

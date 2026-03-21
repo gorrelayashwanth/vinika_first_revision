@@ -1,3 +1,5 @@
+import { useState, useRef, useEffect } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import Layout from "@/components/Layout";
 import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
@@ -9,14 +11,43 @@ import { Leaf, Shield, FlaskConical, Heart, Users, Clock, Award, Sprout, BadgeCh
 import heroBg from "@/assets/hero-bg-updated.png";
 
 const HomePage = () => {
-  const { products } = useApp();
+  const { products: cloudProducts } = useApp();
+  const [showContent, setShowContent] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  // Combine cloud products with local defaults to ensure data is always visible
+  const products = cloudProducts.length > 0 ? cloudProducts : store.getProducts();
+  const featured = products.filter(p => p.featured).slice(0, 2);
   const content = store.getContent();
-  const featured = products.filter(p => p.featured);
+
+  // Framer Motion smooth springs
+  const mouseX = useSpring(useMotionValue(0), { stiffness: 60, damping: 20 });
+  const mouseY = useSpring(useMotionValue(0), { stiffness: 60, damping: 20 });
+  const rotateX = useTransform(mouseY, [-400, 400], [8, -8]);
+  const rotateY = useTransform(mouseX, [-400, 400], [-8, 8]);
 
   useScrollAnimation(".reveal", 0.15);
   useScrollAnimation(".trust-group", 0.15);
   useScrollAnimation(".banner-reveal", 0.15);
   useScrollAnimation(".feature-card", 0.15);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!sectionRef.current) return;
+    const rect = sectionRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    mouseX.set(e.clientX - centerX);
+    mouseY.set(e.clientY - centerY);
+    
+    // Proximity Sensing Logic
+    const distance = Math.sqrt(Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2));
+    if (distance < 450) {
+      if (!showContent) setShowContent(true);
+    } else if (showContent && distance > 550) {
+      setShowContent(false);
+    }
+  };
 
   const statIcons = [<Sprout key="s" className="h-8 w-8" />, <Shield key="sh" className="h-8 w-8" />, <Users key="u" className="h-8 w-8" />, <Clock key="c" className="h-8 w-8" />];
   const stats = [content.statsNatural, content.statsAdditives, content.statsOrders, content.statsYears];
@@ -36,41 +67,81 @@ const HomePage = () => {
   return (
     <Layout showAnnouncement>
       {/* Hero */}
-      <section className="relative min-h-[75vh] md:min-h-[85vh] flex items-start md:items-center overflow-hidden pt-12 md:pt-0">
-        <div className="absolute inset-0">
-          <img src={heroBg} alt="Vinika Food Thoughts" className="w-full h-full object-cover object-center hero-ken-burns" />
-          {/* Fading Overlay - appears much later to preserve image visibility */}
-          <div 
-            className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-transparent md:bg-gradient-to-r md:from-background/90 md:via-background/70 md:to-background/30 hero-box-reveal" 
-            style={{ animationDelay: "1500ms" }}
+      <section 
+        ref={sectionRef}
+        className="relative min-h-[85vh] md:min-h-[95vh] flex items-center justify-center overflow-hidden bg-black cursor-none select-none"
+        onMouseMove={handleMouseMove}
+        onMouseLeave={() => setShowContent(false)}
+      >
+        {/* Cursor Follower (Desktop only) */}
+        {!showContent && (
+          <motion.div 
+            className="hidden md:block fixed z-[99] pointer-events-none w-12 h-12 rounded-full border border-white/30 backdrop-blur-sm shadow-xl"
+            style={{ x: mouseX, y: mouseY, left: "50%", top: "50%", marginLeft: -24, marginTop: -24 }}
+          />
+        )}
+
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <motion.img 
+            src={heroBg} 
+            alt="Vinika Food Thoughts" 
+            className="w-full h-full object-cover object-center"
+            animate={{ 
+              filter: showContent ? "blur(20px) brightness(0.4) saturate(0.8)" : "blur(0px) brightness(1) saturate(1)",
+              scale: showContent ? 1.08 : 1
+            }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+          />
+          <motion.div 
+            className="absolute inset-0 bg-background/50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: showContent ? 1 : 0 }}
+            transition={{ duration: 1.2 }}
           />
         </div>
-        <div className="absolute top-20 right-20 opacity-20 animate-float hidden lg:block">
-          <Leaf className="h-24 w-24 text-primary" />
-        </div>
-        <div className="absolute bottom-32 right-40 opacity-15 animate-float-delayed hidden lg:block">
-          <Leaf className="h-16 w-16 text-primary rotate-45" />
-        </div>
-        <div className="container mx-auto px-4 relative z-10 mt-6 md:mt-0">
-          <div 
-            className="max-w-xl bg-white/10 backdrop-blur-xl p-6 md:p-10 rounded-[2.5rem] border border-white/10 shadow-2xl md:shadow-none hero-box-reveal" 
-            style={{ animationDelay: "1500ms" }}
+        
+        {/* Interaction Layer (Overlay) */}
+        <div className="absolute inset-0 z-10" onClick={() => setShowContent(!showContent)} />
+
+        <div className="container mx-auto px-4 relative z-20 pointer-events-none">
+          <motion.div 
+            style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+            animate={{ 
+              opacity: showContent ? 1 : 0,
+              y: showContent ? 0 : 40,
+              scale: showContent ? 1 : 0.95
+            }}
+            transition={{ duration: 0.8, ease: "backOut" }}
+            className="max-w-xl mx-auto bg-white/5 backdrop-blur-[30px] p-10 md:p-14 rounded-[4rem] border border-white/10 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] pointer-events-auto"
+            onClick={(e) => e.stopPropagation()}
           >
-            <h1 className="font-heading text-2xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight hero-fade-up" style={{ animationDelay: "1850ms" }}>
-              {content.heroHeadline}
-            </h1>
-            <p className="text-xs md:text-xl text-foreground font-semibold md:font-normal md:text-muted-foreground mt-4 md:mt-6 leading-relaxed hero-fade-up" style={{ animationDelay: "2200ms" }}>
-              {content.heroSubtext}
-            </p>
-            <div className="flex flex-wrap gap-3 md:gap-4 mt-6 md:mt-8 hero-fade-up" style={{ animationDelay: "2550ms" }}>
-              <Button variant="hero" size="lg" className="btn-shimmer text-xs md:text-base h-10 md:h-12" asChild>
-                <Link to="/shop">{content.heroCTA1}</Link>
-              </Button>
-              <Button variant="heroOutline" size="lg" className="btn-outline-fill text-xs md:text-base h-10 md:h-12" asChild>
-                <Link to="/about">{content.heroCTA2}</Link>
-              </Button>
+            <div style={{ transform: "translateZ(50px)" }}>
+              <h1 className="font-heading text-3xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight drop-shadow-sm">
+                {content.heroHeadline}
+              </h1>
+              <p className="text-sm md:text-xl text-foreground font-semibold md:font-normal md:text-muted-foreground mt-4 md:mt-6 leading-relaxed">
+                {content.heroSubtext}
+              </p>
+              <div className="flex flex-wrap gap-3 md:gap-4 mt-8 md:mt-10">
+                <Button variant="hero" size="lg" className="btn-shimmer h-12 md:h-14 px-8 text-white rounded-full" asChild>
+                  <Link to="/shop">{content.heroCTA1}</Link>
+                </Button>
+                <Button variant="heroOutline" size="lg" className="btn-outline-fill h-12 md:h-14 px-8 rounded-full" asChild>
+                  <Link to="/about">{content.heroCTA2}</Link>
+                </Button>
+              </div>
             </div>
-          </div>
+          </motion.div>
+          
+          <motion.div 
+            animate={{ opacity: showContent ? 0 : 1 }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-[25vh] text-center pointer-events-none"
+          >
+            <div className="text-white/40 text-[10px] md:text-xs font-medium tracking-[0.4em] uppercase animate-pulse mb-2">
+              Explore the Pureness
+            </div>
+            <div className="h-12 w-[1px] bg-gradient-to-b from-white/40 to-transparent mx-auto" />
+          </motion.div>
         </div>
       </section>
 
