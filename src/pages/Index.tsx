@@ -84,11 +84,12 @@ const HomePage = () => {
 
         <div className="absolute inset-0 z-0 overflow-hidden">
           <motion.img 
+            id="hero-img"
             src={heroBg} 
             alt="Vinika Food Thoughts" 
             className="w-full h-full object-cover object-center"
             animate={{ 
-              filter: showContent ? "blur(20px) brightness(0.4) saturate(0.8)" : "blur(0px) brightness(1) saturate(1)",
+              filter: showContent ? "blur(4px) brightness(0.7) saturate(0.9)" : "blur(0px) brightness(1) saturate(1)",
               scale: showContent ? 1.08 : 1
             }}
             transition={{ duration: 1.2, ease: "easeOut" }}
