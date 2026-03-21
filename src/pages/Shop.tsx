@@ -2,6 +2,7 @@ import Layout from "@/components/Layout";
 import ProductCard from "@/components/ProductCard";
 import { useApp } from "@/context/AppContext";
 import { store } from "@/lib/store";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const ShopPage = () => {
   const { products: cloudProducts } = useApp();
@@ -12,6 +13,8 @@ const ShopPage = () => {
     // If somehow local is also empty, use the built-in defaults explicitly
     products = store.getProducts(); 
   }
+
+  useScrollAnimation(".reveal", 0.1);
 
   return (
     <Layout>
