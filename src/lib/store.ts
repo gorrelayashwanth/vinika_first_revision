@@ -277,7 +277,9 @@ export const store = {
   setUsers: (u: User[]) => set("vinika_users", u),
 
   getProducts: (): Product[] => {
-    const products = get("vinika_products", defaultProducts);
+    const localProds = get("vinika_products", defaultProducts);
+    const products = localProds.length > 0 ? localProds : defaultProducts;
+    
     return products.map(p => ({
       ...p,
       category: p.category || "premix",
