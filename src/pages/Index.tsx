@@ -15,9 +15,11 @@ const HomePage = () => {
   const [showContent, setShowContent] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   
-  // Combine cloud products with local defaults to ensure data is always visible
-  const products = cloudProducts.length > 0 ? cloudProducts : store.getProducts();
-  const featured = products.filter(p => p.featured).slice(0, 2);
+  // High-reliability products fallback
+  let products = cloudProducts.length > 0 ? cloudProducts : store.getProducts();
+  if (products.length === 0) products = store.getProducts();
+  
+  const featured = products.slice(0, 2);
   const content = store.getContent();
 
   // Framer Motion smooth springs
@@ -32,10 +34,9 @@ const HomePage = () => {
   useScrollAnimation(".feature-card", 0.15);
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!sectionRef.current) return;
-    const rect = sectionRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
+    // Distance sensing from screen center for maximum reliability
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
     
     mouseX.set(e.clientX - centerX);
     mouseY.set(e.clientY - centerY);

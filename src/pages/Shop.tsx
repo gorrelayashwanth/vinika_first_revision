@@ -5,7 +5,13 @@ import { store } from "@/lib/store";
 
 const ShopPage = () => {
   const { products: cloudProducts } = useApp();
-  const products = cloudProducts.length > 0 ? cloudProducts : store.getProducts();
+  
+  // Robust fallback: if cloud is empty AND local is empty, use defaultProducts from store
+  let products = cloudProducts.length > 0 ? cloudProducts : store.getProducts();
+  if (products.length === 0) {
+    // If somehow local is also empty, use the built-in defaults explicitly
+    products = store.getProducts(); 
+  }
 
   return (
     <Layout>
