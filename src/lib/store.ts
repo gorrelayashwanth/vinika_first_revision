@@ -25,6 +25,7 @@ export interface ProductHighlights {
 export interface Product {
   id: string;
   name: string;
+  slug: string;
   price: number;
   mrp: number;
   image: string;
@@ -140,6 +141,7 @@ const defaultProducts: Product[] = [
   {
     id: "p1",
     name: "Andhra Pesarattu Premix",
+    slug: "andhra-pesarattu-premix",
     price: 149,
     mrp: 199,
     image: "",
@@ -168,6 +170,7 @@ const defaultProducts: Product[] = [
   {
     id: "p2",
     name: "Beet Pro Multi Millet Dosa Premix",
+    slug: "beet-pro-multi-millet-dosa-premix",
     price: 149,
     mrp: 199,
     image: "",
@@ -282,6 +285,7 @@ export const store = {
     
     return products.map(p => ({
       ...p,
+      slug: p.slug || (p.name ? p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') : ''),
       category: p.category || "premix",
       stock: p.stock || 0,
       ingredients: p.ingredients || defaultProducts.find(dp => dp.id === p.id)?.ingredients || [],

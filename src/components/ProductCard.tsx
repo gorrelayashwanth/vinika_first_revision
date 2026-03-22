@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/context/AppContext";
 import { Product, store, Review } from "@/lib/store";
@@ -89,41 +90,43 @@ const ProductCard = ({ product, delay = 0 }: { product: Product, delay?: number 
   };
 
   return (
-    <div className="card-warm overflow-hidden group transition-all duration-300 reveal product-card-hover" style={{ transitionDelay: `${delay}ms` }}>
+    <div className="card-warm overflow-hidden group transition-all duration-300 reveal product-card-hover flex flex-col" style={{ transitionDelay: `${delay}ms` }}>
       {/* Image Carousel */}
-      <div className="aspect-square overflow-hidden bg-secondary relative">
+      <Link to={`/product/${product.slug}`} className="aspect-square overflow-hidden bg-secondary relative block">
         <img src={currentImage} alt={product.name} className="w-full h-full object-cover product-card-img-zoom" />
         {images.length > 1 && (
           <>
-            <button onClick={() => setImgIdx((imgIdx - 1 + images.length) % images.length)} className="absolute left-2 top-1/2 -translate-y-1/2 bg-background/80 rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity arrow-hover">
+            <button onClick={(e) => { e.preventDefault(); setImgIdx((imgIdx - 1 + images.length) % images.length); }} className="absolute left-2 top-1/2 -translate-y-1/2 bg-background/80 rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity arrow-hover z-10">
               <ChevronLeft className="h-4 w-4" />
             </button>
-            <button onClick={() => setImgIdx((imgIdx + 1) % images.length)} className="absolute right-2 top-1/2 -translate-y-1/2 bg-background/80 rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity arrow-hover">
+            <button onClick={(e) => { e.preventDefault(); setImgIdx((imgIdx + 1) % images.length); }} className="absolute right-2 top-1/2 -translate-y-1/2 bg-background/80 rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity arrow-hover z-10">
               <ChevronRight className="h-4 w-4" />
             </button>
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-10">
               {images.map((_, i) => (
-                <button key={i} onClick={() => setImgIdx(i)} className={`w-2 h-2 rounded-full transition-colors ${i === imgIdx ? "bg-primary" : "bg-background/60"}`} />
+                <button key={i} onClick={(e) => { e.preventDefault(); setImgIdx(i); }} className={`w-2 h-2 rounded-full transition-colors ${i === imgIdx ? "bg-primary" : "bg-background/60"}`} />
               ))}
             </div>
           </>
         )}
         {product.highlights?.vegNonVeg === "Veg" && (
-          <div className="absolute top-2 left-2 bg-background/90 rounded-full p-1">
+          <div className="absolute top-2 left-2 bg-background/90 rounded-full p-1 z-10">
             <Leaf className="h-4 w-4 text-primary" />
           </div>
         )}
         {avgRating && (
-          <div className="absolute top-2 right-2 bg-background/90 rounded-full px-2 py-1 flex items-center gap-1">
+          <div className="absolute top-2 right-2 bg-background/90 rounded-full px-2 py-1 flex items-center gap-1 z-10">
             <Star className="h-3 w-3 text-accent fill-accent" />
             <span className="text-xs font-semibold">{avgRating}</span>
           </div>
         )}
-      </div>
+      </Link>
 
-      <div className="p-5">
+      <div className="p-5 flex flex-col flex-grow">
         <span className="text-xs font-medium uppercase tracking-wider text-accent">{product.category}</span>
-        <h3 className="font-heading text-lg font-semibold mt-1 text-foreground">{product.name}</h3>
+        <Link to={`/product/${product.slug}`} className="hover:text-primary transition-colors">
+          <h3 className="font-heading text-lg font-semibold mt-1">{product.name}</h3>
+        </Link>
         <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{product.description}</p>
 
         {/* Price */}
