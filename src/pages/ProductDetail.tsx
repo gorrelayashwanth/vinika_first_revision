@@ -12,7 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const ProductDetail = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const { addToCart, user } = useApp();
+  const { addToCart, user, products, reviews: allReviews } = useApp();
   
   const [product, setProduct] = useState<Product | null>(null);
   const [imgIdx, setImgIdx] = useState(0);
@@ -27,10 +27,11 @@ const ProductDetail = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    const products = store.getProducts();
+    // Find product from context (synced with Firebase)
     const p = products.find(prod => prod.slug === slug);
     if (!p) {
-      navigate("/shop");
+      // If we have products but none match this slug, navigate away
+      if (products.length > 0) navigate("/shop");
       return;
     }
     setProduct(p);
@@ -39,7 +40,7 @@ const ProductDetail = () => {
     // Find related products
     const related = products.filter(prod => prod.id !== p.id).slice(0, 3);
     setRelatedProducts(related);
-  }, [slug, navigate]);
+  }, [slug, navigate, products]);
 
   if (!product) return null;
 
@@ -57,7 +58,6 @@ const ProductDetail = () => {
   const discountPercent = Math.round(((product.mrp - currentPrice) / product.mrp) * 100);
 
   // Reviews
-  const allReviews = store.getReviews();
   const productReviews = allReviews.filter(r => r.productId === product.id);
   const avgRating = productReviews.length > 0
     ? (productReviews.reduce((s, r) => s + r.rating, 0) / productReviews.length).toFixed(1)

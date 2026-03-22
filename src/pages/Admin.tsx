@@ -847,15 +847,6 @@ const ContentTab = () => {
         </CardContent>
       </Card>
       <Card>
-        <CardHeader><CardTitle className="text-base">Stats Section</CardTitle></CardHeader>
-        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div><label className="text-xs text-muted-foreground">Natural</label><Input value={content.statsNatural} onChange={e => update("statsNatural", e.target.value)} /></div>
-          <div><label className="text-xs text-muted-foreground">Additives</label><Input value={content.statsAdditives} onChange={e => update("statsAdditives", e.target.value)} /></div>
-          <div><label className="text-xs text-muted-foreground">Orders</label><Input value={content.statsOrders} onChange={e => update("statsOrders", e.target.value)} /></div>
-          <div><label className="text-xs text-muted-foreground">Years</label><Input value={content.statsYears} onChange={e => update("statsYears", e.target.value)} /></div>
-        </CardContent>
-      </Card>
-      <Card>
         <CardHeader><CardTitle className="text-base">About Section</CardTitle></CardHeader>
         <CardContent className="space-y-3">
           <div><label className="text-xs text-muted-foreground">About Teaser</label><Textarea value={content.aboutTeaser} onChange={e => update("aboutTeaser", e.target.value)} /></div>

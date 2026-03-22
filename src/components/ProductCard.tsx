@@ -13,7 +13,7 @@ const ProductCard = ({ product, delay = 0 }: { product: Product, delay?: number 
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [reviewComment, setReviewComment] = useState("");
   const [reviewRating, setReviewRating] = useState(5);
-  const { addToCart, user } = useApp();
+  const { addToCart, user, reviews: allReviews } = useApp();
 
   const triggerCartFly = (e: React.MouseEvent) => {
     const btn = e.currentTarget;
@@ -54,7 +54,6 @@ const ProductCard = ({ product, delay = 0 }: { product: Product, delay?: number 
   const currentLabel = variants[selectedVariant]?.label || "";
 
   // Reviews
-  const allReviews = store.getReviews();
   const productReviews = allReviews.filter(r => r.productId === product.id);
   const avgRating = productReviews.length > 0
     ? (productReviews.reduce((s, r) => s + r.rating, 0) / productReviews.length).toFixed(1)

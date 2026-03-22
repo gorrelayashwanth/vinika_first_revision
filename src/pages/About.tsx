@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import { store } from "@/lib/store";
+import { useApp } from "@/context/AppContext";
 import { Leaf, Heart, Sparkles, Shield, Home, Clock, CheckCircle2, Zap } from "lucide-react";
 
 // 5 icons for the 5 values
@@ -12,8 +13,7 @@ const icons = [
 ];
 
 const AboutPage = () => {
-  const content = store.getContent();
-  const products = store.getProducts();
+  const { content, products } = useApp();
 
   return (
     <Layout>
@@ -122,22 +122,6 @@ const AboutPage = () => {
                 </div>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      {/* Founder Message */}
-      <section className="bg-secondary/50 py-20">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="bg-card rounded-2xl p-8 md:p-12 border border-border shadow-warm">
-            <h2 className="font-heading text-3xl font-bold text-foreground mb-6">A Letter from our Founder</h2>
-            <p className="text-lg text-foreground/80 leading-relaxed italic mb-6">
-              "{content.founderMessage}"
-            </p>
-            <div className="border-t border-border pt-4">
-              <h4 className="font-heading font-bold text-lg text-primary">{content.founderName}</h4>
-              <span className="text-sm text-muted-foreground uppercase tracking-wider">{content.founderTitle}</span>
-            </div>
           </div>
         </div>
       </section>

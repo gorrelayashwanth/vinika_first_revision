@@ -288,8 +288,8 @@ export const store = {
       slug: p.slug || (p.name ? p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') : ''),
       category: p.category || "premix",
       stock: p.stock || 0,
-      ingredients: p.ingredients || defaultProducts.find(dp => dp.id === p.id)?.ingredients || [],
-      benefits: p.benefits || defaultProducts.find(dp => dp.id === p.id)?.benefits || [],
+      ingredients: p.ingredients ?? defaultProducts.find(dp => dp.id === p.id)?.ingredients ?? [],
+      benefits: p.benefits ?? defaultProducts.find(dp => dp.id === p.id)?.benefits ?? [],
       images: p.images || [],
       quantityPricing: (p.quantityPricing || []).map((qp: any) => ({
         label: qp.label || `${qp.minQty || 1} pcs`,

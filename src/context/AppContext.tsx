@@ -7,11 +7,11 @@ import {
   getSettings as fbGetSettings, getContent as fbGetContent,
   incrementCouponUsage
 } from "@/lib/firestore";
-import { onSnapshot, doc } from "firebase/firestore";
+import { onSnapshot, doc, collection } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { store } from "@/lib/store";
 import { useToast } from "@/hooks/use-toast";
-import type { User, CartItem, Product, Order, AdminSettings, AdminContent } from "@/lib/store";
+import type { User, CartItem, Product, Order, AdminSettings, AdminContent, Review } from "@/lib/store";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface AppContextType {
@@ -26,6 +26,7 @@ interface AppContextType {
   products: Product[];
   settings: AdminSettings;
   content: AdminContent;
+  reviews: Review[];
 
   // Cart
   cart: CartItem[];
@@ -66,6 +67,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [products, setProducts] = useState<Product[]>(store.getProducts());
   const [settings, setSettings] = useState<AdminSettings>(store.getSettings());
   const [content, setContent] = useState<AdminContent>(store.getContent());
+  const [reviews, setReviews] = useState<Review[]>(store.getReviews());
   const [cart, setCart] = useState<CartItem[]>(loadCart());
   const [orders, setOrders] = useState<Order[]>([]);
   const { toast } = useToast();
@@ -106,6 +108,15 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       if (snap.exists()) setContent(snap.data() as AdminContent);
     });
     return () => { unsubSettings(); unsubContent(); };
+  }, []);
+
+  // ── Real-time reviews listener ──
+  useEffect(() => {
+    const unsub = onSnapshot(collection(db, "reviews"), (snap) => {
+      const revs = snap.docs.map(d => ({ id: d.id, ...d.data() } as Review));
+      setReviews(revs);
+    });
+    return unsub;
   }, []);
 
   // ── Real-time user orders listener ──
@@ -166,7 +177,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   return (
     <AppContext.Provider value={{
       user, firebaseUser, loading, logout, updateLocalUser,
-      products, settings, content, cart, cartCount, addToCart, updateCartQty, removeFromCart, clearCart,
+      products, settings, content, reviews, cart, cartCount, addToCart, updateCartQty, removeFromCart, clearCart,
       orders, applyCoupon,
     }}>
       {children}

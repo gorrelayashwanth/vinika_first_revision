@@ -11,7 +11,7 @@ import { Leaf, Shield, FlaskConical, Heart, Users, Clock, Award, Sprout, BadgeCh
 import heroBg from "@/assets/hero-bg-updated.png";
 
 const HomePage = () => {
-  const { products: cloudProducts } = useApp();
+  const { products: cloudProducts, content: cloudContent } = useApp();
   const [showContent, setShowContent] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   
@@ -20,7 +20,7 @@ const HomePage = () => {
   if (products.length === 0) products = store.getProducts();
   
   const featured = products.slice(0, 2);
-  const content = store.getContent();
+  const content = cloudContent || store.getContent();
 
   // Framer Motion smooth springs
   const mouseX = useSpring(useMotionValue(0), { stiffness: 60, damping: 20 });
@@ -50,8 +50,6 @@ const HomePage = () => {
     }
   };
 
-  const statIcons = [<Sprout key="s" className="h-8 w-8" />, <Shield key="sh" className="h-8 w-8" />, <Users key="u" className="h-8 w-8" />, <Clock key="c" className="h-8 w-8" />];
-  const stats = [content.statsNatural, content.statsAdditives, content.statsOrders, content.statsYears];
 
   const whyChooseUs = [
     { icon: <BadgeCheck className="h-8 w-8" />, title: "Best Quality", desc: "Made with carefully selected natural ingredients, hygienically processed, and quality-tested" },
@@ -213,19 +211,6 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="bg-secondary py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {stats.map((s, i) => (
-              <div key={i} className="text-center card-warm p-6">
-                <div className="text-primary mx-auto mb-3 flex justify-center">{statIcons[i]}</div>
-                <p className="font-heading text-lg font-bold text-foreground">{s}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* About Teaser */}
       <section className="py-20">
