@@ -303,7 +303,7 @@ const ProductsTab = () => {
   const { toast } = useToast();
 
   const emptyProduct: Product = {
-    id: "", name: "", price: 0, mrp: 0, image: "", images: [],
+    id: "", name: "", slug: "", price: 0, mrp: 0, image: "", images: [],
     description: "", ingredients: [], benefits: [], featured: false, category: "premix", stock: 0,
     quantityPricing: [{ label: "1 Pack", price: 0 }],
     highlights: { ...emptyHighlights },
@@ -868,33 +868,6 @@ const ContentTab = () => {
         <CardHeader><CardTitle className="text-base">About Products Section</CardTitle></CardHeader>
         <CardContent className="space-y-3">
           <div><label className="text-xs text-muted-foreground">About Products Intro</label><Textarea value={content.aboutProductsIntro} onChange={e => update("aboutProductsIntro", e.target.value)} rows={3} /></div>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader><CardTitle className="text-base">Preparation Steps</CardTitle></CardHeader>
-        <CardContent className="space-y-2">
-          {content.preparationSteps.map((step, i) => (
-            <div key={i} className="flex gap-2">
-              <Input value={step} onChange={e => { const steps = [...content.preparationSteps]; steps[i] = e.target.value; update("preparationSteps", steps); }} />
-              <Button size="icon" variant="ghost" onClick={() => update("preparationSteps", content.preparationSteps.filter((_, j) => j !== i))}><Trash2 className="h-4 w-4 text-destructive" /></Button>
-            </div>
-          ))}
-          <Button size="sm" variant="outline" onClick={() => update("preparationSteps", [...content.preparationSteps, "New Step"])}><Plus className="h-4 w-4 mr-1" /> Add Step</Button>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader><CardTitle className="text-base">Product Features (About Page)</CardTitle></CardHeader>
-        <CardContent className="space-y-3">
-          <div className="space-y-2">
-            {content.productFeatures.map((f, i) => (
-              <div key={i} className="flex gap-2">
-                <Input value={f} onChange={e => { const features = [...content.productFeatures]; features[i] = e.target.value; update("productFeatures", features); }} />
-                <Button size="icon" variant="ghost" onClick={() => update("productFeatures", content.productFeatures.filter((_, j) => j !== i))}><Trash2 className="h-4 w-4 text-destructive" /></Button>
-              </div>
-            ))}
-            <Button size="sm" variant="outline" onClick={() => update("productFeatures", [...content.productFeatures, "New Feature"])}><Plus className="h-4 w-4 mr-1" /> Add Feature</Button>
-          </div>
-          <div><label className="text-xs text-muted-foreground">Product Features Footer Message</label><Input value={content.productFeaturesFooter} onChange={e => update("productFeaturesFooter", e.target.value)} /></div>
         </CardContent>
       </Card>
       <Card>

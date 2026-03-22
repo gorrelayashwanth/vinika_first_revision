@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import { store } from "@/lib/store";
-import { Leaf, Heart, Sparkles, Shield, Home, Clock, CheckCircle2, Flame, Droplets, Zap } from "lucide-react";
+import { Leaf, Heart, Sparkles, Shield, Home, Clock, CheckCircle2, Zap } from "lucide-react";
 
 // 5 icons for the 5 values
 const icons = [
@@ -9,15 +9,6 @@ const icons = [
   <Clock key="c" className="h-8 w-8" />,
   <Shield key="sh" className="h-8 w-8" />,
   <Home key="ho" className="h-8 w-8" />,
-];
-
-const productFeaturesIcons = [
-  <Leaf key="f1" className="h-5 w-5" />,
-  <CheckCircle2 key="f2" className="h-5 w-5" />,
-  <Shield key="f3" className="h-5 w-5" />,
-  <Sparkles key="f4" className="h-5 w-5" />,
-  <Droplets key="f5" className="h-5 w-5" />,
-  <Zap key="f6" className="h-5 w-5" />,
 ];
 
 const AboutPage = () => {
@@ -135,51 +126,18 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Product Features */}
-      <section className="bg-secondary py-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-10">
-            <h2 className="font-heading text-3xl font-bold text-foreground">Product Features</h2>
-            <div className="w-20 h-1 bg-accent mx-auto mt-4 rounded-full" />
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 max-w-5xl mx-auto">
-            {content.productFeatures.map((feature, i) => (
-              <div key={i} className="card-warm p-4 text-center">
-                <div className="text-primary mb-2 flex justify-center">
-                  {productFeaturesIcons[i % productFeaturesIcons.length]}
-                </div>
-                <p className="text-xs font-medium text-foreground leading-tight">{feature}</p>
-              </div>
-            ))}
-          </div>
-          <p className="text-center text-sm text-muted-foreground mt-8 max-w-xl mx-auto">
-            {content.productFeaturesFooter}
-          </p>
-        </div>
-      </section>
-
-      {/* How to Prepare */}
-      <section className="py-20">
-        <div className="container mx-auto px-4 max-w-3xl">
-          <div className="text-center mb-12">
-            <h2 className="font-heading text-3xl font-bold text-foreground">How to Prepare</h2>
-            <div className="w-20 h-1 bg-accent mx-auto mt-4 rounded-full" />
-          </div>
-          <div className="space-y-4">
-            {content.preparationSteps.map((stepText, i) => (
-              <div key={i} className="flex items-start gap-4 card-warm p-5">
-                <div className="h-9 w-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-heading font-bold text-sm shrink-0">
-                  {i + 1}
-                </div>
-                <p className="text-foreground/80 leading-relaxed pt-1.5">{stepText}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-8 bg-accent/10 rounded-2xl p-5 text-center border border-accent/20">
-            <Flame className="h-5 w-5 text-accent mx-auto mb-2" />
-            <p className="text-sm font-medium text-foreground">
-              Serve hot with coconut chutney or sambar for the best experience!
+      {/* Founder Message */}
+      <section className="bg-secondary/50 py-20">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <div className="bg-card rounded-2xl p-8 md:p-12 border border-border shadow-warm">
+            <h2 className="font-heading text-3xl font-bold text-foreground mb-6">A Letter from our Founder</h2>
+            <p className="text-lg text-foreground/80 leading-relaxed italic mb-6">
+              "{content.founderMessage}"
             </p>
+            <div className="border-t border-border pt-4">
+              <h4 className="font-heading font-bold text-lg text-primary">{content.founderName}</h4>
+              <span className="text-sm text-muted-foreground uppercase tracking-wider">{content.founderTitle}</span>
+            </div>
           </div>
         </div>
       </section>

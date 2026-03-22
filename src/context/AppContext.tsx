@@ -87,7 +87,13 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   // ── Real-time products listener ──
   useEffect(() => {
-    const unsub = subscribeToProducts(setProducts);
+    const unsub = subscribeToProducts((prods) => {
+      const normalized = prods.map(p => ({
+        ...p,
+        slug: p.slug || (p.name ? p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') : ''),
+      }));
+      setProducts(normalized);
+    });
     return unsub;
   }, []);
 
@@ -160,7 +166,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   return (
     <AppContext.Provider value={{
       user, firebaseUser, loading, logout, updateLocalUser,
-      products, cart, cartCount, addToCart, updateCartQty, removeFromCart, clearCart,
+      products, settings, content, cart, cartCount, addToCart, updateCartQty, removeFromCart, clearCart,
       orders, applyCoupon,
     }}>
       {children}
