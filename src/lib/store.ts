@@ -119,6 +119,8 @@ export interface AdminContent {
   heroCTA1: string;
   heroCTA2: string;
   features: string[];
+  bannerQuote: string;
+  bannerSpeed: number;
   statsNatural: string;
   statsAdditives: string;
   statsOrders: string;
@@ -219,6 +221,8 @@ const defaultContent: AdminContent = {
   heroCTA1: "Shop Now",
   heroCTA2: "Our Story",
   features: ["100% Natural", "No Preservatives", "No Artificial Colours", "High Protein", "Ready in 5 Min"],
+  bannerQuote: "No soaking. No grinding. No guesswork. Just wholesome South Indian breakfast — made from real millets and whole grains, ready in under 5 minutes.",
+  bannerSpeed: 40,
   statsNatural: "100% Natural",
   statsAdditives: "0 Additives",
   statsOrders: "5000+ Happy Customers",

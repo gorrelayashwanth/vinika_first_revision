@@ -178,12 +178,12 @@ const HomePage = () => {
           <motion.div 
             className="flex items-center gap-12 md:gap-20 px-6 pr-12 md:pr-20"
             animate={{ x: [0, "-50%"] }}
-            transition={{ repeat: Infinity, ease: "linear", duration: 40 }}
+            transition={{ repeat: Infinity, ease: "linear", duration: content.bannerSpeed || 40 }}
             style={{ width: "max-content" }}
           >
-            {[...content.features, ...content.features, ...content.features, ...content.features, ...content.features, ...content.features].map((f, i) => (
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((_, i) => (
               <span key={i} className="text-accent-foreground/90 font-heading text-xl md:text-3xl italic tracking-wide">
-                “{f}”
+                “{content.bannerQuote}”
               </span>
             ))}
           </motion.div>

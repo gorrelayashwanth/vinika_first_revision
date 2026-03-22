@@ -847,6 +847,13 @@ const ContentTab = () => {
         </CardContent>
       </Card>
       <Card>
+        <CardHeader><CardTitle className="text-base">Rolling Banner</CardTitle></CardHeader>
+        <CardContent className="space-y-3">
+          <div><label className="text-xs text-muted-foreground">Banner Quote</label><Textarea value={content.bannerQuote} onChange={e => update("bannerQuote", e.target.value)} rows={3} /></div>
+          <div><label className="text-xs text-muted-foreground">Banner Speed (Lower = Faster, default 40)</label><Input type="number" value={content.bannerSpeed} onChange={e => update("bannerSpeed", +e.target.value)} /></div>
+        </CardContent>
+      </Card>
+      <Card>
         <CardHeader><CardTitle className="text-base">About Section</CardTitle></CardHeader>
         <CardContent className="space-y-3">
           <div><label className="text-xs text-muted-foreground">About Teaser</label><Textarea value={content.aboutTeaser} onChange={e => update("aboutTeaser", e.target.value)} /></div>
